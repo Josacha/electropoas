@@ -1,44 +1,65 @@
 import { db } from "./firebase.js";
 
 import {
-
 collection,
 getDocs
-
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const contenedor = document.getElementById("productos");
+const buscador = document.getElementById("buscador");
 
-async function cargarProductos(){
+let productos = [];
 
-const snapshot = await getDocs(collection(db,"productos"));
+async function cargarProductos() {
 
-snapshot.forEach(doc=>{
+const querySnapshot = await getDocs(collection(db, "productos"));
 
-const p = doc.data();
+querySnapshot.forEach((doc) => {
 
-const card = document.createElement("div");
+productos.push({ id: doc.id, ...doc.data() });
 
-card.className="producto";
+});
 
-card.innerHTML=`
+mostrarProductos(productos);
 
-<img src="${p.imagen}">
+}
+
+function mostrarProductos(lista) {
+
+contenedor.innerHTML = "";
+
+lista.forEach(p => {
+
+contenedor.innerHTML += `
+
+<div class="card">
+
+<img src="${p.imagen}" />
+
 <h3>${p.nombre}</h3>
-<p>${p.categoria}</p>
 
-<button onclick="window.open('https://wa.me/50600000000')">
+<p>${p.marca}</p>
 
-Consultar
+<a href="producto.html?id=${p.id}">Ver producto</a>
 
-</button>
+</div>
 
 `;
-
-contenedor.appendChild(card);
 
 });
 
 }
+
+buscador.addEventListener("input", () => {
+
+const texto = buscador.value.toLowerCase();
+
+const filtrados = productos.filter(p =>
+p.nombre.toLowerCase().includes(texto)
+);
+
+mostrarProductos(filtrados);
+
+});
 
 cargarProductos();
