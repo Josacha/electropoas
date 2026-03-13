@@ -1,46 +1,36 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 
 <head>
-<meta charset="UTF-8">
-<title>Panel Admin</title>
-<link rel="stylesheet" href="css/styles.css">
+
+<title>Panel</title>
+
+<link rel="stylesheet" href="css/estilos.css">
+
 </head>
 
 <body>
 
-<h1>Administrador Electro Poás</h1>
-
-<div id="login">
-
-<input id="email" placeholder="Correo">
-
-<input id="password" type="password" placeholder="Contraseña">
-
-<button id="loginBtn">Ingresar</button>
-
-</div>
-
-
-<div id="panel" style="display:none">
-
-<h2>Nuevo Producto</h2>
+<h2>Administrar productos</h2>
 
 <input id="nombre" placeholder="Nombre">
 
+<input id="marca" placeholder="Marca">
+
 <input id="categoria" placeholder="Categoria">
+
+<input id="voltaje" placeholder="Voltaje">
+
+<input id="amperaje" placeholder="Amperaje">
 
 <input id="imagen" placeholder="URL imagen">
 
-<button id="guardar">Guardar</button>
+<textarea id="descripcion"></textarea>
 
-<h2>Inventario</h2>
-
-<div id="lista"></div>
-
-</div>
+<button id="guardar">Guardar producto</button>
 
 <script type="module" src="js/admin.js"></script>
 
 </body>
+
 </html>
