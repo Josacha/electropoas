@@ -2,36 +2,110 @@
 <html lang="es">
 
 <head>
-
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Catálogo ElectroPoas</title>
+<title>Catálogo | Electro Poás</title>
 
-<link rel="stylesheet" href="css/styles.css">
+<link rel="stylesheet" href="styles.css">
 
 </head>
 
 <body>
 
-<header>
+<header class="hero-catalogo">
 
-<h1>Catálogo</h1>
+<div class="hero-overlay">
 
-<input type="text" id="buscador" placeholder="Buscar producto...">
+<h1>Catálogo de Productos</h1>
 
-<select id="categoriaFiltro">
-<option value="">Todas las categorías</option>
-<option>Breakers</option>
-<option>Cables</option>
-<option>Iluminación</option>
-<option>Tubería</option>
-</select>
+<p>Encuentra rápidamente el equipo eléctrico que necesitas</p>
+
+<a href="index.html" class="btn-volver">⬅ Volver al inicio</a>
+
+</div>
 
 </header>
 
-<div id="productos" class="grid"></div>
 
-<script type="module" src="js/catalogo.js"></script>
+<section class="filtros">
+
+<h2>Buscar productos</h2>
+
+<div class="filtros-grid">
+
+<input type="text" id="busqueda" placeholder="Buscar producto...">
+
+<select id="categoria">
+<option value="">Todas las categorías</option>
+<option value="breaker">Breakers</option>
+<option value="contactor">Contactores</option>
+<option value="sensor">Sensores</option>
+<option value="proteccion">Protección eléctrica</option>
+</select>
+
+<select id="marca">
+<option value="">Todas las marcas</option>
+<option value="autonics">Autonics</option>
+<option value="chint">Chint</option>
+</select>
+
+<button onclick="filtrarProductos()" class="btn-filtrar">Buscar</button>
+
+</div>
+
+</section>
+
+
+<section class="catalogo">
+
+<div id="productosContainer" class="productos-grid">
+
+</div>
+
+</section>
+
+
+<section class="productos-destacados">
+
+<h2>Productos Destacados</h2>
+
+<div class="carousel">
+
+<button class="prev">❮</button>
+
+<div class="carousel-track" id="carouselTrack"></div>
+
+<button class="next">❯</button>
+
+</div>
+
+</section>
+
+
+<footer>
+
+<div class="footer-marcas">
+
+<h3>Trabajamos con marcas líderes</h3>
+
+<div class="marcas">
+
+<img src="autonics.png">
+<img src="chint.png">
+
+</div>
+
+</div>
+
+<p class="copy">
+© 2026 Electro Poás
+</p>
+
+</footer>
+
+
+<script src="catalogo.js"></script>
 
 </body>
 
