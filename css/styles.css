@@ -459,3 +459,23 @@ background:#1a4474;
 .prev{ left:-10px; }
 
 .next{ right:-10px; }
+
+.btn-volver{
+
+display:inline-block;
+margin-top:20px;
+
+background:#d32f2f;
+color:white;
+
+padding:10px 18px;
+
+border-radius:5px;
+text-decoration:none;
+font-weight:bold;
+
+}
+
+.btn-volver:hover{
+background:#b71c1c;
+}
