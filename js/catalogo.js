@@ -51,8 +51,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   }
 
-  // filtro principal
-  window.filtrarProductos = function () {
+  function filtrarProductos() {
 
     const texto = buscador.value.toLowerCase();
     const cat = categoria.value.toLowerCase();
@@ -69,8 +68,21 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     mostrarProductos(filtrados);
-
   }
+
+  // 🔎 búsqueda mientras escribe
+  buscador.addEventListener("input", filtrarProductos);
+
+  // 🔎 ejecutar con ENTER
+  buscador.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+      filtrarProductos();
+    }
+  });
+
+  // filtros automáticos
+  categoria.addEventListener("change", filtrarProductos);
+  marca.addEventListener("change", filtrarProductos);
 
   cargarProductos();
 
