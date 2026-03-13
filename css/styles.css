@@ -382,3 +382,80 @@ transform:scale(1.08);
 font-size:14px;
 opacity:0.8;
 }
+
+/* =========================
+PRODUCTOS DESTACADOS
+========================= */
+
+.productos-destacados{
+padding:60px 20px;
+background:#ffffff;
+text-align:center;
+}
+
+.productos-destacados h2{
+font-size:28px;
+margin-bottom:40px;
+color:#0d2d50;
+}
+
+.carousel{
+position:relative;
+max-width:1200px;
+margin:auto;
+overflow:hidden;
+}
+
+.carousel-track{
+display:flex;
+gap:20px;
+transition:transform 0.4s ease;
+}
+
+.carousel-card{
+min-width:220px;
+background:white;
+padding:20px;
+border-radius:10px;
+box-shadow:0 6px 18px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+.carousel-card img{
+width:100%;
+height:140px;
+object-fit:contain;
+margin-bottom:10px;
+}
+
+.carousel-card h4{
+font-size:15px;
+margin-bottom:5px;
+}
+
+.carousel-card p{
+font-size:13px;
+color:#777;
+}
+
+.carousel-btn{
+position:absolute;
+top:50%;
+transform:translateY(-50%);
+background:#0d2d50;
+color:white;
+border:none;
+font-size:24px;
+padding:10px 15px;
+cursor:pointer;
+border-radius:6px;
+z-index:10;
+}
+
+.carousel-btn:hover{
+background:#1a4474;
+}
+
+.prev{ left:-10px; }
+
+.next{ right:-10px; }
