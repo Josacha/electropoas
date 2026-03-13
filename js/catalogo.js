@@ -1,5 +1,11 @@
 import { db } from "./firebase.js";
-import { collection, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+import {
+
+collection,
+getDocs
+
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const contenedor = document.getElementById("productos");
 
@@ -12,6 +18,7 @@ snapshot.forEach(doc=>{
 const p = doc.data();
 
 const card = document.createElement("div");
+
 card.className="producto";
 
 card.innerHTML=`
@@ -21,7 +28,9 @@ card.innerHTML=`
 <p>${p.categoria}</p>
 
 <button onclick="window.open('https://wa.me/50600000000')">
+
 Consultar
+
 </button>
 
 `;
