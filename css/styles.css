@@ -12,7 +12,7 @@ body{
 font-family: 'Segoe UI', Arial, sans-serif;
 background:#f4f6f8;
 color:#333;
-line-height:1.5;
+line-height:1.6;
 }
 
 /* =========================
@@ -26,21 +26,46 @@ display:flex;
 justify-content:space-between;
 align-items:center;
 padding:15px 40px;
-box-shadow:0 2px 8px rgba(0,0,0,0.2);
+box-shadow:0 4px 15px rgba(0,0,0,0.15);
+position:sticky;
+top:0;
+z-index:1000;
 }
 
 header h1{
-font-size:22px;
+font-size:24px;
+font-weight:600;
 letter-spacing:1px;
+}
+
+nav{
+display:flex;
+align-items:center;
 }
 
 nav a{
 color:white;
 text-decoration:none;
-margin-left:20px;
+margin-left:25px;
 font-size:15px;
 font-weight:500;
-transition:0.2s;
+transition:0.3s;
+position:relative;
+}
+
+nav a::after{
+content:"";
+width:0;
+height:2px;
+background:#ffc107;
+position:absolute;
+left:0;
+bottom:-5px;
+transition:0.3s;
+}
+
+nav a:hover::after{
+width:100%;
 }
 
 nav a:hover{
@@ -48,12 +73,14 @@ color:#ffc107;
 }
 
 /* =========================
-HERO (PAGINA PRINCIPAL)
+HERO
 ========================= */
 
 .hero{
-background:url("../img/electric-bg.jpg") center/cover no-repeat;
-height:400px;
+background:
+linear-gradient(rgba(0,0,0,0.55),rgba(0,0,0,0.55)),
+url("../img/fondo.jpg") center/cover no-repeat;
+height:420px;
 display:flex;
 flex-direction:column;
 justify-content:center;
@@ -66,26 +93,33 @@ padding:20px;
 .hero h2{
 font-size:42px;
 margin-bottom:10px;
-text-shadow:0 3px 10px rgba(0,0,0,0.5);
+text-shadow:0 4px 15px rgba(0,0,0,0.6);
 }
 
 .hero p{
 font-size:18px;
-margin-bottom:20px;
+margin-bottom:25px;
+max-width:600px;
 }
+
+/* =========================
+BOTONES
+========================= */
 
 .btn{
 background:#ffc107;
-padding:12px 28px;
+padding:14px 32px;
 border-radius:6px;
 text-decoration:none;
-font-weight:bold;
+font-weight:600;
 color:#000;
-transition:0.2s;
+transition:0.25s;
+box-shadow:0 4px 10px rgba(0,0,0,0.15);
 }
 
 .btn:hover{
 background:#ffb300;
+transform:translateY(-2px);
 }
 
 /* =========================
@@ -93,10 +127,17 @@ BUSCADOR
 ========================= */
 
 #buscador{
-padding:10px;
-width:250px;
+padding:10px 15px;
+width:260px;
 border-radius:6px;
-border:1px solid #ccc;
+border:1px solid #ddd;
+outline:none;
+transition:0.2s;
+}
+
+#buscador:focus{
+border-color:#0d2d50;
+box-shadow:0 0 5px rgba(13,45,80,0.3);
 }
 
 /* =========================
@@ -106,8 +147,9 @@ FILTROS
 select{
 padding:10px;
 border-radius:6px;
-border:1px solid #ccc;
+border:1px solid #ddd;
 margin-left:10px;
+outline:none;
 }
 
 /* =========================
@@ -130,8 +172,8 @@ CARD PRODUCTO
 .card{
 background:white;
 border-radius:10px;
-padding:15px;
-box-shadow:0 5px 15px rgba(0,0,0,0.08);
+padding:18px;
+box-shadow:0 6px 20px rgba(0,0,0,0.08);
 transition:0.3s;
 display:flex;
 flex-direction:column;
@@ -139,40 +181,42 @@ justify-content:space-between;
 }
 
 .card:hover{
-transform:translateY(-5px);
-box-shadow:0 10px 25px rgba(0,0,0,0.15);
+transform:translateY(-6px);
+box-shadow:0 12px 30px rgba(0,0,0,0.15);
 }
 
 .card img{
 width:100%;
-height:160px;
+height:170px;
 object-fit:contain;
 margin-bottom:10px;
 }
 
 .card h3{
 font-size:16px;
-margin-bottom:5px;
+margin-bottom:6px;
+font-weight:600;
 }
 
 .card p{
 font-size:14px;
 color:#666;
-margin-bottom:10px;
+margin-bottom:12px;
 }
 
 .card a{
 text-decoration:none;
 background:#0d2d50;
 color:white;
-padding:8px;
+padding:10px;
 border-radius:6px;
 text-align:center;
 font-size:14px;
+transition:0.2s;
 }
 
 .card a:hover{
-background:#143e6b;
+background:#1a4474;
 }
 
 /* =========================
@@ -186,7 +230,7 @@ background:white;
 padding:40px;
 margin-top:40px;
 border-radius:10px;
-box-shadow:0 6px 18px rgba(0,0,0,0.1);
+box-shadow:0 6px 20px rgba(0,0,0,0.1);
 }
 
 #productoDetalle img{
@@ -203,20 +247,27 @@ form,
 max-width:600px;
 margin:auto;
 background:white;
-padding:30px;
+padding:35px;
 margin-top:40px;
 border-radius:10px;
-box-shadow:0 5px 15px rgba(0,0,0,0.1);
+box-shadow:0 6px 20px rgba(0,0,0,0.1);
 }
 
 input,
 textarea{
 width:100%;
-padding:10px;
+padding:12px;
 margin-top:10px;
 margin-bottom:15px;
 border-radius:6px;
-border:1px solid #ccc;
+border:1px solid #ddd;
+font-size:14px;
+}
+
+input:focus,
+textarea:focus{
+outline:none;
+border-color:#0d2d50;
 }
 
 button{
@@ -227,10 +278,11 @@ padding:12px;
 border-radius:6px;
 cursor:pointer;
 font-size:15px;
+transition:0.2s;
 }
 
 button:hover{
-background:#143e6b;
+background:#1a4474;
 }
 
 /* =========================
@@ -242,7 +294,7 @@ margin-top:60px;
 background:#0d2d50;
 color:white;
 text-align:center;
-padding:25px;
+padding:30px;
 font-size:14px;
 }
 
@@ -255,18 +307,33 @@ RESPONSIVE
 header{
 flex-direction:column;
 align-items:flex-start;
+padding:20px;
 }
 
 nav{
 margin-top:10px;
+flex-wrap:wrap;
+}
+
+nav a{
+margin:8px 12px 0 0;
+}
+
+.hero{
+height:320px;
 }
 
 .hero h2{
 font-size:30px;
 }
 
+.hero p{
+font-size:16px;
+}
+
 .grid{
 padding:20px;
+gap:18px;
 }
 
 }
