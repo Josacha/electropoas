@@ -1,60 +1,209 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
-
-<title>Panel</title>
-
-<link rel="stylesheet" href="css/styles.css">
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración</title>
+    <link rel="stylesheet" href="css/styles.css">
 </head>
 
 <body>
 
-<button id="logout">Cerrar sesión</button>
+    <!-- HEADER -->
+    <header>
+        <div class="logo">
+            <img src="img/logo.png" alt="Logo">
+            <h1>JEC Eléctricos</h1>
+        </div>
+        <nav>
+            <button id="logout" class="btn">Cerrar sesión</button>
+        </nav>
+    </header>
 
-<h2>Administrar productos</h2>
+    <!-- FORMULARIO ADMIN -->
+    <div class="admin-panel">
+        <h2>Administrar productos</h2>
 
-<input id="nombre" placeholder="Nombre">
+        <input id="nombre" placeholder="Nombre">
+        <input id="marca" placeholder="Marca">
+        <input id="categoria" list="listaCategorias" placeholder="Categoría">
+        <datalist id="listaCategorias"></datalist>
+        <input id="voltaje" placeholder="Voltaje">
+        <input id="amperaje" placeholder="Amperaje">
+        <input id="imagen" placeholder="URL imagen">
+        <textarea id="descripcion" placeholder="Descripción"></textarea>
 
-<input id="marca" placeholder="Marca">
+        <button id="guardar" class="btn">Guardar producto</button>
+    </div>
 
-<input id="categoria" list="listaCategorias" placeholder="Categoria">
+    <!-- TABLA DE PRODUCTOS -->
+    <div class="tabla-productos">
+        <h3>Productos registrados</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Imagen</th>
+                    <th>Nombre</th>
+                    <th>Marca</th>
+                    <th>Categoria</th>
+                    <th>Voltaje</th>
+                    <th>Amperaje</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody id="tablaProductos">
+                <!-- Productos se cargarán aquí dinámicamente -->
+            </tbody>
+        </table>
+    </div>
 
-<datalist id="listaCategorias"></datalist>
+    <!-- SCRIPT ADMIN -->
+    <script type="module">
+        import { db } from "./firebase.js";
+        import {
+            collection,
+            addDoc,
+            getDocs,
+            updateDoc,
+            deleteDoc,
+            doc
+        } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-<input id="voltaje" placeholder="Voltaje">
+        const nombreInput = document.getElementById("nombre");
+        const marcaInput = document.getElementById("marca");
+        const categoriaInput = document.getElementById("categoria");
+        const voltajeInput = document.getElementById("voltaje");
+        const amperajeInput = document.getElementById("amperaje");
+        const imagenInput = document.getElementById("imagen");
+        const descripcionInput = document.getElementById("descripcion");
+        const tablaProductos = document.getElementById("tablaProductos");
+        const listaCategorias = document.getElementById("listaCategorias");
+        const guardarBtn = document.getElementById("guardar");
+        const logoutBtn = document.getElementById("logout");
 
-<input id="amperaje" placeholder="Amperaje">
+        let productos = [];
+        let categorias = new Set();
 
-<input id="imagen" placeholder="URL imagen">
+        // Cargar productos y categorías
+        const cargarProductos = async () => {
+            tablaProductos.innerHTML = "";
+            const snapshot = await getDocs(collection(db, "productos"));
+            productos = [];
+            snapshot.forEach(docSnap => {
+                const data = docSnap.data();
+                data.id = docSnap.id;
+                productos.push(data);
+                categorias.add(data.categoria);
+            });
+            actualizarDatalist();
+            productos.forEach(prod => {
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td><img src="${prod.imagen}" alt="${prod.nombre}"></td>
+                    <td>${prod.nombre}</td>
+                    <td>${prod.marca}</td>
+                    <td>${prod.categoria}</td>
+                    <td>${prod.voltaje}</td>
+                    <td>${prod.amperaje}</td>
+                    <td>
+                        <button class="editar" data-id="${prod.id}">Editar</button>
+                        <button class="eliminar" data-id="${prod.id}">Eliminar</button>
+                    </td>
+                `;
+                tablaProductos.appendChild(tr);
+            });
+        };
 
-<textarea id="descripcion"></textarea>
+        // Actualizar datalist categorías
+        const actualizarDatalist = () => {
+            listaCategorias.innerHTML = "";
+            categorias.forEach(cat => {
+                const option = document.createElement("option");
+                option.value = cat;
+                listaCategorias.appendChild(option);
+            });
+        };
 
-<button id="guardar">Guardar producto</button>
+        // Guardar o agregar producto
+        guardarBtn.onclick = async () => {
+            const categoriaValue = categoriaInput.value.trim();
+            if (categoriaValue) categorias.add(categoriaValue);
 
+            const producto = {
+                nombre: nombreInput.value,
+                marca: marcaInput.value,
+                categoria: categoriaValue,
+                voltaje: voltajeInput.value,
+                amperaje: amperajeInput.value,
+                imagen: imagenInput.value,
+                descripcion: descripcionInput.value
+            };
+            await addDoc(collection(db, "productos"), producto);
+            alert("Producto agregado");
+            limpiarFormulario();
+            cargarProductos();
+        };
 
-<h3>Productos</h3>
+        // Limpiar formulario
+        const limpiarFormulario = () => {
+            nombreInput.value = "";
+            marcaInput.value = "";
+            categoriaInput.value = "";
+            voltajeInput.value = "";
+            amperajeInput.value = "";
+            imagenInput.value = "";
+            descripcionInput.value = "";
+        };
 
-<table border="1">
+        // Editar o eliminar producto
+        tablaProductos.addEventListener("click", async (e) => {
+            if (e.target.classList.contains("eliminar")) {
+                const id = e.target.dataset.id;
+                if (confirm("¿Deseas eliminar este producto?")) {
+                    await deleteDoc(doc(db, "productos", id));
+                    cargarProductos();
+                }
+            } else if (e.target.classList.contains("editar")) {
+                const id = e.target.dataset.id;
+                const prod = productos.find(p => p.id === id);
+                nombreInput.value = prod.nombre;
+                marcaInput.value = prod.marca;
+                categoriaInput.value = prod.categoria;
+                voltajeInput.value = prod.voltaje;
+                amperajeInput.value = prod.amperaje;
+                imagenInput.value = prod.imagen;
+                descripcionInput.value = prod.descripcion;
 
-<thead>
+                guardarBtn.onclick = async () => {
+                    await updateDoc(doc(db, "productos", id), {
+                        nombre: nombreInput.value,
+                        marca: marcaInput.value,
+                        categoria: categoriaInput.value,
+                        voltaje: voltajeInput.value,
+                        amperaje: amperajeInput.value,
+                        imagen: imagenInput.value,
+                        descripcion: descripcionInput.value
+                    });
+                    alert("Producto actualizado");
+                    limpiarFormulario();
+                    cargarProductos();
+                    guardarBtn.onclick = guardarBtnClick;
+                };
+            }
+        });
 
-<tr>
-<th>Imagen</th>
-<th>Nombre</th>
-<th>Marca</th>
-<th>Categoria</th>
-<th>Acciones</th>
-</tr>
+        // Logout
+        logoutBtn.onclick = () => {
+            location.href = "login.html";
+        };
 
-</thead>
+        // Guardar producto original
+        const guardarBtnClick = guardarBtn.onclick;
 
-<tbody id="tablaProductos"></tbody>
-
-</table>
-
-<script type="module" src="js/admin.js"></script>
+        // Inicializar
+        cargarProductos();
+    </script>
 
 </body>
 
