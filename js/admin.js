@@ -1,4 +1,4 @@
-import { db } from "./firebase.js";
+import { db, auth } from "./firebase.js";
 
 import {
 collection,
@@ -9,13 +9,23 @@ doc,
 updateDoc
 } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
+import {
+signOut
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+
 const tabla = document.getElementById("tablaProductos");
+const listaCategorias = document.getElementById("listaCategorias");
 
 let editandoId = null;
+
 
 async function cargarProductos(){
 
 tabla.innerHTML="";
+listaCategorias.innerHTML="";
+
+const categorias = new Set();
 
 const querySnapshot = await getDocs(collection(db,"productos"));
 
@@ -23,6 +33,8 @@ querySnapshot.forEach((docu)=>{
 
 const p = docu.data();
 const id = docu.id;
+
+categorias.add(p.categoria);
 
 tabla.innerHTML += `
 
@@ -56,7 +68,15 @@ Eliminar
 
 });
 
+
+categorias.forEach(cat=>{
+
+listaCategorias.innerHTML += `<option value="${cat}">`;
+
+});
+
 }
+
 
 window.eliminarProducto = async(id)=>{
 
@@ -70,6 +90,7 @@ cargarProductos();
 
 }
 
+
 window.editarProducto = (id,nombre,marca,categoria,voltaje,amperaje,imagen,descripcion)=>{
 
 editandoId = id;
@@ -82,9 +103,8 @@ document.getElementById("amperaje").value = amperaje;
 document.getElementById("imagen").value = imagen;
 document.getElementById("descripcion").value = descripcion;
 
-window.scrollTo(0,0);
-
 }
+
 
 document.getElementById("guardar").onclick = async()=>{
 
@@ -116,10 +136,26 @@ alert("Producto agregado");
 
 }
 
-document.querySelectorAll(".admin-form input, .admin-form textarea").forEach(e=>e.value="");
+document.getElementById("nombre").value="";
+document.getElementById("marca").value="";
+document.getElementById("categoria").value="";
+document.getElementById("voltaje").value="";
+document.getElementById("amperaje").value="";
+document.getElementById("imagen").value="";
+document.getElementById("descripcion").value="";
 
 cargarProductos();
 
 }
+
+
+document.getElementById("logout").onclick = async()=>{
+
+await signOut(auth);
+
+window.location.href="index.html";
+
+};
+
 
 cargarProductos();
