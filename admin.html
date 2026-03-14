@@ -1,64 +1,42 @@
 <!DOCTYPE html>
-<html lang="es">
+<html>
 
 <head>
 
-<meta charset="UTF-8">
-<title>Panel Administración</title>
+<title>Panel</title>
 
-<link rel="icon" type="image/png" href="img/JEC.png">
 <link rel="stylesheet" href="css/styles.css">
 
 </head>
 
 <body>
 
-<header>
+<button id="logout">Cerrar sesión</button>
 
-<div class="logo">
-<img src="img/JEC.png">
-<h1>JEC ELECTRICOS</h1>
-</div>
+<h2>Administrar productos</h2>
 
-<nav>
-<a href="index.html">Inicio</a>
-<a href="catalogo.html">Catálogo</a>
-</nav>
-
-</header>
-
-<section class="admin-panel">
-
-<h2>Administrar Productos</h2>
-
-<div class="admin-form">
-
-<input id="nombre" placeholder="Nombre del producto">
+<input id="nombre" placeholder="Nombre">
 
 <input id="marca" placeholder="Marca">
 
-<input id="categoria" placeholder="Categoría">
+<input id="categoria" list="listaCategorias" placeholder="Categoria">
+
+<datalist id="listaCategorias"></datalist>
 
 <input id="voltaje" placeholder="Voltaje">
 
 <input id="amperaje" placeholder="Amperaje">
 
-<input id="imagen" placeholder="URL de imagen">
+<input id="imagen" placeholder="URL imagen">
 
-<textarea id="descripcion" placeholder="Descripción"></textarea>
+<textarea id="descripcion"></textarea>
 
 <button id="guardar">Guardar producto</button>
 
-</div>
 
-</section>
+<h3>Productos</h3>
 
-
-<section class="tabla-productos">
-
-<h2>Productos registrados</h2>
-
-<table>
+<table border="1">
 
 <thead>
 
@@ -66,7 +44,7 @@
 <th>Imagen</th>
 <th>Nombre</th>
 <th>Marca</th>
-<th>Categoría</th>
+<th>Categoria</th>
 <th>Acciones</th>
 </tr>
 
@@ -75,8 +53,6 @@
 <tbody id="tablaProductos"></tbody>
 
 </table>
-
-</section>
 
 <script type="module" src="js/admin.js"></script>
 
