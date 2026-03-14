@@ -1,9 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 
 <head>
 
-<title>Login</title>
+<meta charset="UTF-8">
+<title>Administración - JEC Eléctricos</title>
+
+<link rel="icon" type="image/png" href="img/JEC.png">
 
 <link rel="stylesheet" href="css/styles.css">
 
@@ -11,13 +14,44 @@
 
 <body>
 
-<h2>Administración</h2>
+<header>
 
-<input id="email" placeholder="Correo">
+<div class="logo">
+
+<img src="img/JEC.png" alt="JEC Electricos">
+<h1>JEC ELECTRICOS</h1>
+
+</div>
+
+<nav>
+
+<a href="index.html">Inicio</a>
+<a href="catalogo.html">Catálogo</a>
+
+</nav>
+
+</header>
+
+
+<section class="login-container">
+
+<div class="login-box">
+
+<h2>Panel de Administración</h2>
+
+<p>Acceso para administradores</p>
+
+<input id="email" type="email" placeholder="Correo electrónico">
 
 <input id="password" type="password" placeholder="Contraseña">
 
 <button id="login">Entrar</button>
+
+<a href="index.html" class="btn-volver">Volver al inicio</a>
+
+</div>
+
+</section>
 
 <script type="module" src="js/login.js"></script>
 
